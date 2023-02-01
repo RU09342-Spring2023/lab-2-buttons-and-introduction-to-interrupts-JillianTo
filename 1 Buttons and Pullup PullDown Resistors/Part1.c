@@ -2,8 +2,10 @@
  *  Pull-Up Resistor Configuration
  *
  *  Created on: Jan 31, 2023
+ *  Revised on: Feb 2, 2023
  *      Author: Russell Trafford
- *      Version: 1.0
+ *      Author: Jillian To
+ *      Version: 2.0
  *
  *      This example will show you how to configure the Pull-up Resistor for your button inputs.
  *
@@ -32,10 +34,16 @@ int main(void)
 
     while(1)
     {
-        if (P2IN & BIT3)            // If S2 (P2.3) is pressed
+        if (!(P2IN & BIT3)) {          // If S2 (P2.3) is pressed, ! because pull-up resistor
             P6OUT ^= BIT6;          // Toggle P6.6
-        if (P4IN & BIT1)            // If S1 (P4.1) is pressed
+        } else {
+            P6OUT &= ~BIT6; // reset P6.6
+        }
+        if (!(P4IN & BIT1)) {           // If S1 (P4.1) is pressed, ! because pull-up resistor
             P1OUT ^= BIT0;          // Toggle P1.0
+        } else {
+            P1OUT &= ~BIT0; // reset P1.0
+        }
         __delay_cycles(100000);             // Delay for 100000*(1/MCLK)=0.1s
     }
 
