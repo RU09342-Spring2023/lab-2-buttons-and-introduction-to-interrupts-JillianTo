@@ -1,4 +1,4 @@
-# Saving and Measuring Power on your Microcontroller
+﻿# Saving and Measuring Power on your Microcontroller
 While plugged into your computer or a charger, the power consumption of your device might not be of utmost importance, but many systems are seeking for low power consumption. To get this discussion started, we are going to take a look at two different pieces of code to simply turn an LED on when a button is pressed. But we will see that one method keeping the CPU on consumes much more power than when we can turn them off. This will be monitored using Energy Trace which is built in to the Code Composer IDE.
 
 ## What is our processor actually doing?
@@ -76,4 +76,9 @@ Then load up Energy Trace and perform the similar capture of Power with the LED 
 
 
 # Screenshots and Answers to Questions
-**Replace this section with your screenshots of Energy Trace and provide some reasoning as to Questions 1 and 2 in the Power consumption of the Interrupts Section.**
+
+1. The two figures below show that for the same task, the polling code had much higher power usage throughout than the interrupt example. This is because the polling code is constantly checking if the P2.3 button is pressed. However, in the interrupt code, the button state does not need to be constantly checked since the button itself can interrupt the code. 
+Fig. 1: Run with polling, no LED, button held starting at ≈5.9s
+Fig. 2: Run with interrupts, no LED, button held starting at ≈2.5s  
+2. There is a power usage increase when the button is pressed because the pull-up resistor is enabled on the P2.3 button input. Therefore, there is voltage that goes into ground when the button is pressed, but when the button is not pressed, there is not voltage going through the button connection into ground. 
+
