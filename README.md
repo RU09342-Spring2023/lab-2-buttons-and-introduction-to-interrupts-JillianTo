@@ -19,5 +19,5 @@ Port 4 interrupt:
 - resets system to armed state and turns off red LED
 
 Warning to Alert state transition:
-In order to blink the red LED every 500ms and count the 10 seconds to go into alert, a counter increments every 500ms until it reaches 20, at which 10 seconds will have elapsed and state is switched to alert.
+- In order to blink the red LED every 500ms and count the 10 seconds to go into alert, a counter increments every 500ms until it reaches 20, at which 10 seconds will have elapsed and state is switched to alert.
 
