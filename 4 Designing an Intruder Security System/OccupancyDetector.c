@@ -11,8 +11,9 @@
 #define WARNING 1
 #define ALERT 2
 
+char counter = 0;
 char state = ARMED;
-char detection = 0x00;
+char detection = 0x01;
 
 void gpioInit();
 
@@ -27,21 +28,35 @@ int main(void) {
     __bis_SR_register(GIE); // enter LPM3 with interrupt
 
     while(1) {
-        if(state == ARMED) {
-            if(detection) {
-                state = WARNING;
-            } else {
+        switch(state) {
+
+        case ARMED:
+            if(detection) { // when person is detected
+                P6OUT &= ~BIT6; // reset green LED
+                state = WARNING; // change state to warning
+            } else { // when no detection
                 P6OUT ^= BIT6; // blink green LED
                 __delay_cycles(3000000); // delay 3 seconds
+            }
+        case WARNING:
+            if((counter > 20) && detection) { // if 10 seconds has passed and person still detected
+                state = ALERT; // change state to alert
+                counter = 0; // reset counter
+                P1OUT |= BIT0; // switch red LED on
+            } else if(detection) { // if person still detected but 10 seconds has not passed
+                P1OUT ^= BIT0; // blink red LED
+                __delay_cycles(500000); // delay 500ms
+                counter++;
+            } else { // person not detected
+                counter = 0; // reset counter
+                P1OUT &= ~BIT0; // reset red LED
+                state = ARMED; // change state to armed
             }
 
         }
 
 
 
-        if(toggle && (state == ARMED)) {
-
-        }
 
     }
 
@@ -80,6 +95,7 @@ __interrupt void Port_2(void) {
 __interrupt void Port_4(void) {
     P4IFG &= ~BIT1; // clear P4.1 IFG
     state = ARMED; // reset system to armed state
+    P1OUT &= ~BIT0; // reset red LED
 }
 
 

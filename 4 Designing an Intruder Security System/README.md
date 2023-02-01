@@ -9,4 +9,4 @@ To complete this assignment, you will need to:
 - [x] 2. Learn about the Interrupt Routine and how it interfaces with your software.
 - [x] 3. Use Interrupts to implement the alternative blinking LED example from Lab 1
 - [x] 4. Explore how interrupts can be used to save power versus polling.
-- [ ] 5. Design the Intruder Security System
+- [x] 5. Design the Intruder Security System
