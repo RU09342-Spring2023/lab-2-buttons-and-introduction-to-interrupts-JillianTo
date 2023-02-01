@@ -2,7 +2,9 @@
  *  Button Interrupt Example
  *
  *  Created on: Jan 30, 2023
+ *  Modified on: Feb 1, 2023
  *      Author: Russell Trafford
+ *      Author: Jillian To
  *      Version: 1.0
  *
  *      This example will show you how to configure an Interrupt and Interrupt Service Routine.
@@ -26,8 +28,8 @@ int main(void)
     // Configure GPIO
     P1OUT &= ~BIT0;                         // Clear P1.0 output latch for a defined power-on state
     P1DIR |= BIT0;                          // Set P1.0 to output direction
-
-    // @TODO You need to add in the configuration for the Green LED
+    P6OUT &= ~BIT6; // Clear P6.6 output latch for a defined power-on state
+    P6DIR |= BIT6; // Set P6.6 to output direction
 
     P2OUT |= BIT3;                          // Configure P2.3 as pulled-up
     P2REN |= BIT3;                          // P2.3 pull-up register enable
@@ -44,11 +46,13 @@ int main(void)
 
     while(1)
     {
-        // @TODO You will need to modify this code to change between blinking the Red LED or the Green LED
-        if (ToggleEnable)
-            P1OUT ^= BIT0;                  // P1.0 = toggle
-        else
-            P1OUT &= ~BIT0;                 // Set P1.0 to 0
+        if (ToggleEnable) { // if toggle != 0
+            P6OUT &= ~BIT6; // reset P6.6
+            P1OUT ^= BIT0; // blink P1.0
+        } else { // if toggle == 0
+            P1OUT &= ~BIT0; // reset P1.0
+            P6OUT ^= BIT6; // blink P6.6
+        }
         __delay_cycles(100000);
     }
 }
@@ -58,7 +62,7 @@ int main(void)
 __interrupt void Port_2(void)
 {
     // @TODO You might need to modify this based on your approach to the lab
-    P2IFG &= ~BIT3;                         // Clear P1.3 IFG
+    P2IFG &= ~BIT3;                         // Clear P2.3 IFG
     ToggleEnable ^= 0x01;                   // Enable if the toggle should be active
 }
 

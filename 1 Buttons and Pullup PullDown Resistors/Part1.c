@@ -2,7 +2,7 @@
  *  Pull-Up Resistor Configuration
  *
  *  Created on: Jan 31, 2023
- *  Revised on: Feb 2, 2023
+ *  Modified on: Feb 1, 2023
  *      Author: Russell Trafford
  *      Author: Jillian To
  *      Version: 2.0
